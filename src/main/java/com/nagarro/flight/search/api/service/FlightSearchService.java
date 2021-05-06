@@ -8,6 +8,7 @@ package com.nagarro.flight.search.api.service;
 import com.nagarro.flight.search.api.dao.FlightSearchRepository;
 import com.nagarro.flight.search.api.entity.FlightInfo;
 import com.nagarro.flight.search.api.model.FlightInfoQuery;
+import com.nagarro.flight.search.api.model.FindByText;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class FlightSearchService {
 
-    @Autowired
-    FlightSearchRepository repository;
-    
-    public List<FlightInfo> flightSearch(FlightInfoQuery query) {
-        return repository.findAll();
-    }
-    
+	@Autowired
+	FlightSearchRepository repository;
+
+	public List<FlightInfo> flightSearch(FlightInfoQuery query) {
+		return repository.findByFlightInfo(
+			"%" + query.getDepartureLocation() + "%",
+			"%" + query.getArrivalLocation() + "%",
+			query.getFlightDate(),
+			query.getFlightClass());
+	}
+
+	public List<FlightInfo> findByText(FindByText query) {
+		return repository.findByText("%"+query.getTextToFind()+"%");
+	}
+
 }

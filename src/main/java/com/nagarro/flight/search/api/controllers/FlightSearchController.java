@@ -2,6 +2,7 @@ package com.nagarro.flight.search.api.controllers;
 
 import com.nagarro.flight.search.api.entity.FlightInfo;
 import com.nagarro.flight.search.api.model.FlightInfoQuery;
+import com.nagarro.flight.search.api.model.FindByText;
 import com.nagarro.flight.search.api.service.FlightSearchService;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,14 @@ public class FlightSearchController {
         return response;
     }
     
+    @CrossOrigin(origins="*")
+    @RequestMapping(value="/findByText", method = RequestMethod.POST)
+    public ResponseEntity<List<FlightInfo>> flightSearch(@RequestBody FindByText query) {
+        List<FlightInfo> results = service.findByText(query);
+        
+        ResponseEntity<List<FlightInfo>> response = ResponseEntity.ok(results);
+        return response;
+    }
     
     
 }
